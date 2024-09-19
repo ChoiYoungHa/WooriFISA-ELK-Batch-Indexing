@@ -58,7 +58,14 @@ CREATE TABLE article (
 - DBeaver에서 allowPublicKeyRetrieval: true, useSSL: false 설정
   <img src="https://github.com/user-attachments/assets/3a0837c6-b255-42d6-b693-8123dd141746" width="600" height="400"/>
 
-4. 크롤링 파일(article_crawling.py) 작성
+4. Python 라이브러리 설치 및 크롤링 파일(article_crawling.py) 작성
+```
+sudo apt update
+sudo apt install python3-pip
+
+sudo pip3 install beautifulsoup4
+sudo pip3 install pymysql
+```
 
 5. Crontab 자동화에 따른 DB 적재
 ```
