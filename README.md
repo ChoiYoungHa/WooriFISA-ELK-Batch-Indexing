@@ -11,29 +11,35 @@
 
 <br>
 
-## 학습 목적 ⛷
+##  ⛷ 학습 목적
 
 - Crontab 활용
 <br>
 
-## 주요 기능 🚁
+## 🚁 주요 기능 
 - 크롤링 후 DB 데이터 적재
 - DB 데이터 Elastic Search 전달
 - Crontab 자동화
 <br>
 
-## 사용 기술 스택 🛠
-- 크롤링: 
+## 🛠 사용 기술 스택 
+- 크롤링: JDK 17 (Jsoup)
 - 데이터베이스: MySQL
 - 검색 서비스: ELK Stack (Elasticsearch, Logstash, Kibana)
 - 컨테이너화: Docker Compose
 <br>
 
-## 실행 순서
-
+## 🥾 실행 순서 
+1. 도커 설치
+2. 도커 컴포즈 설정 후 실행
+3. DB 설정
+4. 크롤링 설정
+5. Crontab 자동화 후 DB 적재
+6. Logstash 연동
+7. Postman 테스트
 <br>
 
-## 트러블슈팅
+## ✨ 트러블슈팅 
 
 <img src="https://github.com/user-attachments/assets/13868a39-fc73-45ed-8748-48781e8b8bf9">
 <br>
