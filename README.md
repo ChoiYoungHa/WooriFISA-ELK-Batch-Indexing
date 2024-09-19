@@ -16,13 +16,13 @@
 - Crontab 활용
 <br>
 
-## 주요 기능
+## 주요 기능 🚁
 - 크롤링 후 DB 데이터 적재
 - DB 데이터 Elastic Search 전달
 - Crontab 자동화
 <br>
 
-## 사용 기술 스택
+## 사용 기술 스택 🛠
 - 크롤링: 
 - 데이터베이스: MySQL
 - 검색 서비스: ELK Stack (Elasticsearch, Logstash, Kibana)
@@ -32,3 +32,24 @@
 ## 실행 순서
 
 <br>
+
+## 트러블슈팅
+
+<img src="https://github.com/user-attachments/assets/13868a39-fc73-45ed-8748-48781e8b8bf9">
+<br>
+
+```
+sudo apt-get update
+```
+오류 발생 시
+
+
+```
+sudo apt-get clean 
+sudo rm -rf /var/lib/apt/lists/*
+sudo apt-get upgrade -y
+sudo apt-get update
+```
+사용으로 해결
+
+
