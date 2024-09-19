@@ -39,6 +39,12 @@
 7. Postman 테스트
 <br>
 
+## 🖼 실행 결과
+
+1. 크롤링 후 DB 적재
+  <img src="https://github.com/user-attachments/assets/59f799ba-f8cf-427d-866a-ffaa9d58b33c">
+
+
 ## ✨ 트러블슈팅 
 
 <img src="https://github.com/user-attachments/assets/13868a39-fc73-45ed-8748-48781e8b8bf9">
@@ -57,5 +63,6 @@ sudo apt-get upgrade -y
 sudo apt-get update
 ```
 사용으로 해결
+
 
 
