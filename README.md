@@ -11,7 +11,7 @@
 
 <br>
 
-# 🙆‍♀️ 프로젝트 개요 : SearchEngine Crontab Batch Indexing
+## 🙆‍♀️ 프로젝트 개요 : SearchEngine Crontab Batch Indexing
 Crontab이 실제로 많이 활용되는 검색엔진 배치 수집을 구현하고자 했습니다. <br>
 데이터 수집을 자동화하며, 이를 인덱싱해 형태소 단위로 해당 기사를 쉽게 검색할 수 있도록 구현했습니다. 
 
@@ -119,7 +119,7 @@ output {
 
 # 🖼 실행 결과
 
-### 1. 크롤링 후 DB 적재🧂
+### 1. 크롤링 후 DB 적재🦞
 <img src="https://github.com/user-attachments/assets/59f799ba-f8cf-427d-866a-ffaa9d58b33c">
 
 <br><br>
@@ -154,11 +154,14 @@ sudo apt-get update
 
 <img src="https://github.com/user-attachments/assets/1d54af95-84de-4807-91fb-07a6f5da0f71">
 <br>
+
 - 도커 컨테이너 /usr/share/logstash/ 위치에 mysql jdbc driver 위치시키고, 실행권한 및 소유자까지 변경했는데도 드라이버를 로드할 수 없다는 에러 발생
+
 <br><br>
 
 <img src="https://github.com/user-attachments/assets/df525a38-6f31-47f1-ab13-f3990b46541f">
 <br>
+
 - 3개의 드라이버를 테스트해본 결과 8.0.18버전과 호환됨을 확인
 
 <br><br>
