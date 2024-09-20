@@ -153,13 +153,14 @@ sudo apt-get update
 
 <img src="https://github.com/user-attachments/assets/1d54af95-84de-4807-91fb-07a6f5da0f71">
 <br>
-도커 컨테이너 /usr/share/logstash/ 위치에 mysql jdbc driver 위치시키고, 실행권한 및 소유자까지 변경했는데도 드라이버를 로드할 수 없다는 에러발생<br>
+도커 컨테이너 /usr/share/logstash/ 위치에 mysql jdbc driver 위치시키고, 실행권한 및 소유자까지 변경했는데도 드라이버를 로드할 수 없다는 에러 발생
+<br><br>
 
 <img src="https://github.com/user-attachments/assets/df525a38-6f31-47f1-ab13-f3990b46541f">
 <br>
 3개의 드라이버를 테스트해본 결과, 8.0.18버전과 호환됨을 확인
 
-<br>
+<br><br>
 
 3. Docker container 종속문제
 
@@ -170,9 +171,9 @@ input {
   jdbc {
     jdbc_driver_library => "/usr/share/logstash/mysql-connector-java-8.0.18.jar"
     jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
-    jdbc_connection_string => "jdbc:mysql://127.0.0.1:3306/mydb"
-    jdbc_user => "(user)"
-    jdbc_password => "(password)"
+    jdbc_connection_string => "jdbc:mysql://mysql:3306/mydb"  # 기존: jdbc_connection_string => "jdbc:mysql://127.0.0.1:3306/mydb"
+    jdbc_user => "user"
+    jdbc_password => "1234"
     jdbc_validate_connection => true
     schedule => "* * * * *"
     statement => "SELECT title, description, reporter, article_url, date FROM article"
@@ -184,8 +185,7 @@ filter {
 
 output {
   elasticsearch {
-    # 기존 : hosts => ["http://127.0.0.1:9200"]
-    hosts => ["http://elasticsearch:9200"]  # 수정
+    hosts => ["http://elasticsearch:9200"]  # 기존: hosts => ["http://127.0.0.1:9200"]
     index => "article"
   }
 
