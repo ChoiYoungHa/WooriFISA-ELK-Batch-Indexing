@@ -1,4 +1,4 @@
-# <p align="center">[WooriFISA - Crontab 활용하기] 
+# <p align="center">[WooriFISA - Use Linux Crontab SearchEngine Batch Indexing] 
 
 <h1 style="font-size: 25px;"> 👨‍👨‍👧‍👦💻 개발 팀원 <br>
 <br>
@@ -11,11 +11,11 @@
 
 <br>
 
-# 🙆‍♀️ 프로젝트 개요 : Article Monitoring System
+# 🙆‍♀️ 프로젝트 개요 : Use Linux Crontab SearchEngine Batch Indexing
 Crontab이 실제로 많이 활용되는 검색엔진 배치 수집을 구현하고자 했습니다. <br>
 데이터 수집을 자동화하며, 이를 인덱싱해 형태소 단위로 해당 기사를 쉽게 검색할 수 있도록 구현했습니다. 
 
-1. Crontab 자동화로 3시간마다 [뉴스 데이터](https://www.mk.co.kr/news/society/general/)를 크롤링하여 DB에 적재
+1. Crontab 자동화로 3시간마다 [뉴스 데이터](https://www.mk.co.kr/news/society/general/)를 크롤링하여 Mysql DB에 적재
 2. ELK 파이프라인 구축해 Elasticsearch에 전달
 
 <br>
@@ -28,12 +28,12 @@ Crontab이 실제로 많이 활용되는 검색엔진 배치 수집을 구현하
 # 🛠 기술 스택 
 - Crawling: Python 3.10
 - Database: MySQL 8.0
-- Search Engine: ELK Stack 7.11
+- Search Engine: ELK Stack 7.11.1
 - Container: Docker Compose
 <br>
 
 # 🥾 실행 순서 
-1. Docker 설치
+### 1.Docker 설치🎨
 ```
 sudo apt-get update
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
@@ -45,14 +45,14 @@ sudo systemctl status docker
 sudo usermod -aG docker $USER
 ```
 
-2. Docker Compose 설정 후 실행 (MySQL, ELK)
+### 2.Docker Compose 설정 후 실행 (MySQL, ELK)👌
 ```
 cd /home/username/compose/
 sudo apt install docker-compose
 docker-compose up -d
 ```
 
-3. DB 초기 설정
+### 3. Mysql 스키마 생성🎫
 ```sql
 CREATE TABLE article (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -66,7 +66,7 @@ CREATE TABLE article (
 - DBeaver에서 allowPublicKeyRetrieval: true, useSSL: false 설정
   <img src="https://github.com/user-attachments/assets/3a0837c6-b255-42d6-b693-8123dd141746" width="600" height="400"/>
 
-4. Python 라이브러리 설치 및 크롤링 파일(article_crawling.py) 작성
+### 4. Python 라이브러리 설치 및 크롤링 파일(article_crawling.py) 작성🕶
 ```
 sudo apt update
 sudo apt install python3-pip
@@ -75,12 +75,12 @@ sudo pip3 install beautifulsoup4
 sudo pip3 install pymysql
 ```
 
-5. Crontab 자동화에 따른 DB 적재
+### 5. Crontab 자동화에 따른 DB 적재👝
 ```
 0 */3 * * * python3 crawling.py >/dev/null 2>&1
 ```
 
-6. ELK 파이프라인 실행
+### 6. ELK 파이프라인 실행🧶
 ```
 input {
   jdbc {
@@ -114,28 +114,28 @@ output {
 }
 ```
 
-7. Postman 테스트
+### 7. Postman 테스트🛒
 <br>
 
 # 🖼 실행 결과
 
-1. 크롤링 후 DB 적재
+### 1. 크롤링 후 DB 적재🧂
 <img src="https://github.com/user-attachments/assets/59f799ba-f8cf-427d-866a-ffaa9d58b33c">
 
 <br><br>
 
-2. Logstash를 사용해 Elasticsearch에 전달
+### 2. Logstash를 사용해 Elasticsearch에 전달🍙
 <img src="https://github.com/user-attachments/assets/d7f4b016-e6a4-4031-bc18-8fa3b58f82a1">
 
 <br><br>
 
-3. Postman으로 확인
+### 3. Postman으로 확인🍨
 <img src="https://github.com/user-attachments/assets/18fd9bb3-473d-4bce-95b3-9ec2d5c6e03f">
 
 <br><br>
 
 # ✨ 트러블슈팅 
-1. sudo apt-get update 중 오류 발생
+### 1. sudo apt-get update 중 오류 발생🎃
 
 <img src="https://github.com/user-attachments/assets/13868a39-fc73-45ed-8748-48781e8b8bf9">
 <br><br>
@@ -150,7 +150,7 @@ sudo apt-get update
 
 <br>
 
-2. logstash 7.11.1 / mysql 8.0 jdbc driver 호환성 문제
+### 2. logstash 7.11.1 / mysql 8.0 jdbc driver 호환성 문제🎯
 
 <img src="https://github.com/user-attachments/assets/1d54af95-84de-4807-91fb-07a6f5da0f71">
 <br>
@@ -163,7 +163,7 @@ sudo apt-get update
 
 <br><br>
 
-3. Docker container 종속문제
+### 3. Docker container 종속문제🍿
 
 <img src="https://future-zydeco-6c6.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff22dc327-0788-4704-8c79-3fa8e796e498%2F590116b8-92a3-415a-bcb1-a998a4edf0b2%2F2024-09-19_22_49_33.png?table=block&id=1064abc5-319b-8078-9924-f8f47aee30ae&spaceId=f22dc327-0788-4704-8c79-3fa8e796e498&width=1420&userId=&cache=v2">
 
