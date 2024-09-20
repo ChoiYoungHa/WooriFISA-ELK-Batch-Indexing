@@ -1,4 +1,4 @@
-# <p align="center">[WooriFISA - Use Linux Crontab SearchEngine Batch Indexing] 
+# <p align="center">[WooriFISA - SearchEngine Crontab Batch Indexing] 
 
 <h1 style="font-size: 25px;"> 👨‍👨‍👧‍👦💻 개발 팀원 <br>
 <br>
@@ -11,7 +11,7 @@
 
 <br>
 
-# 🙆‍♀️ 프로젝트 개요 : Use Linux Crontab SearchEngine Batch Indexing
+# 🙆‍♀️ 프로젝트 개요 : SearchEngine Crontab Batch Indexing
 Crontab이 실제로 많이 활용되는 검색엔진 배치 수집을 구현하고자 했습니다. <br>
 데이터 수집을 자동화하며, 이를 인덱싱해 형태소 단위로 해당 기사를 쉽게 검색할 수 있도록 구현했습니다. 
 
@@ -64,7 +64,8 @@ CREATE TABLE article (
 );
 ```
 - DBeaver에서 allowPublicKeyRetrieval: true, useSSL: false 설정
-  <img src="https://github.com/user-attachments/assets/3a0837c6-b255-42d6-b693-8123dd141746" width="600" height="400"/>
+
+<img src="https://github.com/user-attachments/assets/3a0837c6-b255-42d6-b693-8123dd141746" width="600" height="400"/>
 
 ### 4. Python 라이브러리 설치 및 크롤링 파일(article_crawling.py) 작성🕶
 ```
@@ -114,7 +115,6 @@ output {
 }
 ```
 
-### 7. Postman 테스트🛒
 <br>
 
 # 🖼 실행 결과
@@ -146,7 +146,7 @@ sudo rm -rf /var/lib/apt/lists/*
 sudo apt-get upgrade -y
 sudo apt-get update
 ```
-사용으로 해결
+
 
 <br>
 
@@ -154,12 +154,12 @@ sudo apt-get update
 
 <img src="https://github.com/user-attachments/assets/1d54af95-84de-4807-91fb-07a6f5da0f71">
 <br>
-도커 컨테이너 /usr/share/logstash/ 위치에 mysql jdbc driver 위치시키고, 실행권한 및 소유자까지 변경했는데도 드라이버를 로드할 수 없다는 에러 발생
+- 도커 컨테이너 /usr/share/logstash/ 위치에 mysql jdbc driver 위치시키고, 실행권한 및 소유자까지 변경했는데도 드라이버를 로드할 수 없다는 에러 발생
 <br><br>
 
 <img src="https://github.com/user-attachments/assets/df525a38-6f31-47f1-ab13-f3990b46541f">
 <br>
-3개의 드라이버를 테스트해본 결과, 8.0.18버전과 호환됨을 확인
+- 3개의 드라이버를 테스트해본 결과 8.0.18버전과 호환됨을 확인
 
 <br><br>
 
@@ -196,8 +196,7 @@ output {
 }
 ```
 
-기존 yaml 파일 사용 시
-- DB와 연결할 수 없으며 EK도 찾을 수 없다는 에러 발생
+- 기존 yaml 파일 사용 시 DB와 연결할 수 없으며 EK도 찾을 수 없다는 에러 발생
 - mysql, elasticsearch는 logstash와 같은 docker compose에 종속된 컨테이너이므로 127.0.0.1은 logstash 자기 자신을 의미
 - 때문에 docker compose의 서비스명을 명시해주어야 함
 <br>
