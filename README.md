@@ -1,4 +1,4 @@
-# <p align="center">[WooriFISA - SearchEngine Crontab Batch Indexing] 
+# <p align="center">[💎WooriFISA - SearchEngine Crontab Batch Indexing] 
 
 <h2 style="font-size: 25px;"> 👨‍👨‍👧‍👦💻 개발 팀원 <br>
 <br>
@@ -11,7 +11,7 @@
 
 <br>
 
-# 🙆‍♀️ 프로젝트 개요 : SearchEngine Crontab Batch Indexing
+# 🙆‍♀️ 프로젝트 개요
 Crontab이 실제로 많이 활용되는 검색엔진 배치 수집을 구현하고자 했습니다. <br>
 데이터 수집을 자동화하며, 이를 인덱싱해 형태소 단위로 해당 기사를 쉽게 검색할 수 있도록 구현했습니다. 
 
@@ -22,7 +22,7 @@ Crontab이 실제로 많이 활용되는 검색엔진 배치 수집을 구현하
 
 # ⛷ 학습 목적
 - Linux에서 Crontab 활용하기
-- 검색엔진 배치 수집 구현하기
+- 검색엔진 배치 수집 후 검색기능 구현하기
 <br>
 
 # 🛠 기술 스택 
