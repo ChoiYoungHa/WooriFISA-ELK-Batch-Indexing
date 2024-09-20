@@ -73,6 +73,38 @@ sudo pip3 install pymysql
 ```
 
 6. ELK 파이프라인 실행
+```
+input {
+  jdbc {
+    jdbc_driver_library => "/usr/share/logstash/mysql-connector-java-8.0.18.jar"
+    jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
+    jdbc_connection_string => "jdbc:mysql://mysql:3306/mydb"
+    jdbc_user => "(user)"
+    jdbc_password => "(password)"
+    jdbc_validate_connection => true
+    schedule => "* * * * *"
+    statement => "SELECT title, description, reporter, article_url, date FROM article"
+  }
+}
+
+filter {
+  date {
+    match => ["date", "ISO8601"]
+    target => "date"
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["http://elasticsearch:9200"]
+    index => "article"
+  }
+
+  stdout { 
+    codec => rubydebug
+  }
+}
+```
 
 7. Postman 테스트
 <br>
@@ -84,11 +116,18 @@ sudo pip3 install pymysql
 
 <br><br>
 
+2. Logstash를 사용해 Elasticsearch에 전달
+<img src="https://github.com/user-attachments/assets/d7f4b016-e6a4-4031-bc18-8fa3b58f82a1">
+
+<br><br>
+
+3. Postman으로 확인
+<img src="https://github.com/user-attachments/assets/18fd9bb3-473d-4bce-95b3-9ec2d5c6e03f">
+
+<br><br>
+
 # ✨ 트러블슈팅 
-```
-sudo apt-get update
-```
-중 오류 발생
+1. sudo apt-get update 중 오류 발생
 
 <img src="https://github.com/user-attachments/assets/13868a39-fc73-45ed-8748-48781e8b8bf9">
 <br><br>
@@ -101,5 +140,13 @@ sudo apt-get update
 ```
 사용으로 해결
 
+<br>
 
+2. logstash 7.11.1 / mysql 8.0 jdbc driver 호환성 문제
+<img src="https://github.com/user-attachments/assets/1d54af95-84de-4807-91fb-07a6f5da0f71">
+도커 컨테이너 /usr/share/logstash/ 위치에 mysql jdbc driver 위치시키고, 실행권한 및 소유자까지 변경했는데도 드라이버를 로드할 수 없다는 에러발생
 
+<img src="https://github.com/user-attachments/assets/df525a38-6f31-47f1-ab13-f3990b46541f">
+3개의 드라이버를 테스트해본 결과, 8.0.18버전과 호환됨을 확인
+
+<br>
