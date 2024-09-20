@@ -11,12 +11,17 @@
 <br>
 
 # 🙆‍♀️ 프로젝트 개요 : Article Monitoring System
+Crontab이 실제로 많이 활용되는 검색엔진 배치 수집을 구현하고자 했습니다. <br>
+데이터 수집을 자동화하며, 이를 인덱싱해 형태소 단위로 해당 기사를 쉽게 검색할 수 있도록 구현했습니다. 
+
 1. Crontab 자동화로 3시간마다 [뉴스 데이터](https://www.mk.co.kr/news/society/general/)를 크롤링하여 DB에 적재
 2. ELK 파이프라인 구축해 Elasticsearch에 전달
+
 <br>
 
 # ⛷ 학습 목적
 - Linux에서 Crontab 활용하기
+- 검색엔진 배치 수집 구현하기
 <br>
 
 # 🛠 기술 스택 
@@ -145,15 +150,19 @@ sudo apt-get update
 <br>
 
 2. logstash 7.11.1 / mysql 8.0 jdbc driver 호환성 문제
+
 <img src="https://github.com/user-attachments/assets/1d54af95-84de-4807-91fb-07a6f5da0f71">
-도커 컨테이너 /usr/share/logstash/ 위치에 mysql jdbc driver 위치시키고, 실행권한 및 소유자까지 변경했는데도 드라이버를 로드할 수 없다는 에러발생
+<br>
+도커 컨테이너 /usr/share/logstash/ 위치에 mysql jdbc driver 위치시키고, 실행권한 및 소유자까지 변경했는데도 드라이버를 로드할 수 없다는 에러발생<br>
 
 <img src="https://github.com/user-attachments/assets/df525a38-6f31-47f1-ab13-f3990b46541f">
+<br>
 3개의 드라이버를 테스트해본 결과, 8.0.18버전과 호환됨을 확인
 
 <br>
 
 3. Docker container 종속문제
+
 <img src="https://future-zydeco-6c6.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff22dc327-0788-4704-8c79-3fa8e796e498%2F590116b8-92a3-415a-bcb1-a998a4edf0b2%2F2024-09-19_22_49_33.png?table=block&id=1064abc5-319b-8078-9924-f8f47aee30ae&spaceId=f22dc327-0788-4704-8c79-3fa8e796e498&width=1420&userId=&cache=v2">
 
 ```
@@ -162,8 +171,8 @@ input {
     jdbc_driver_library => "/usr/share/logstash/mysql-connector-java-8.0.18.jar"
     jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
     jdbc_connection_string => "jdbc:mysql://127.0.0.1:3306/mydb"
-    jdbc_user => "user"
-    jdbc_password => "1234"
+    jdbc_user => "(user)"
+    jdbc_password => "(password)"
     jdbc_validate_connection => true
     schedule => "* * * * *"
     statement => "SELECT title, description, reporter, article_url, date FROM article"
@@ -175,7 +184,8 @@ filter {
 
 output {
   elasticsearch {
-    hosts => ["http://127.0.0.1:9200"]
+    # 기존 : hosts => ["http://127.0.0.1:9200"]
+    hosts => ["http://elasticsearch:9200"]  # 수정
     index => "article"
   }
 
@@ -185,39 +195,8 @@ output {
 }
 ```
 
-기존 yaml파일 사용 시
-- DB와 연결할 수 없으며 EK도 찾을 수 없다는 에러발생
-- mysql, elasticsearch는 logstash와 같은 도커 컴포즈에 종속된 컨테이너이므로 127.0.0.1은 logstash 자기자신을 의미
-- 때문에 docker compose의 서비스명을 명시해주어야함.
+기존 yaml 파일 사용 시
+- DB와 연결할 수 없으며 EK도 찾을 수 없다는 에러 발생
+- mysql, elasticsearch는 logstash와 같은 docker compose에 종속된 컨테이너이므로 127.0.0.1은 logstash 자기 자신을 의미
+- 때문에 docker compose의 서비스명을 명시해주어야 함
 <br>
-
-TO BE
-
-```
-input {
-  jdbc {
-    jdbc_driver_library => "/usr/share/logstash/mysql-connector-java-8.0.18.jar"
-    jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
-    jdbc_connection_string => "jdbc:mysql://mysql:3306/mydb"
-    jdbc_user => "user"
-    jdbc_password => "1234"
-    jdbc_validate_connection => true
-    schedule => "* * * * *"
-    statement => "SELECT title, description, reporter, article_url, date FROM article"
-  }
-}
-
-filter {
-}
-
-output {
-  elasticsearch {
-    hosts => ["http://elasticsearch:9200"]
-    index => "article"
-  }
-
-  stdout { 
-    codec => rubydebug
-  }
-}
-
