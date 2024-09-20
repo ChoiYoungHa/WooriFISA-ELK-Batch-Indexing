@@ -2,10 +2,12 @@
 
 <h1 style="font-size: 25px;"> 👨‍👨‍👧‍👦💻 개발 팀원 <br>
 <br>
-
-|<img src="https://avatars.githubusercontent.com/u/98442485?v=4" width="120" height="120"/>|<img src="https://avatars.githubusercontent.com/u/38968449?v=4" width="120" height="120"/>|<img src="https://avatars.githubusercontent.com/u/175371231?v=4" width="120" height="120"/>|
+    
+|<img src="https://avatars.githubusercontent.com/u/64997345?v=4" width="120" height="120"/>|<img src="https://avatars.githubusercontent.com/u/38968449?v=4" width="120" height="120"/>|<img src="https://avatars.githubusercontent.com/u/175371231?v=4" width="120" height="120"/>|
 |:-:|:-:|:-:|
-|[@최영하](https://github.com/LeeYeonhee-00)|[@허예은](https://github.com/yyyeun)|[@오재웅](https://github.com/ohwoong2)|
+|[@최영하](https://github.com/ChoiYoungha)|[@허예은](https://github.com/yyyeun)|[@오재웅](https://github.com/ohwoong2)
+
+
 <br>
 
 # 🙆‍♀️ 프로젝트 개요 : Article Monitoring System
@@ -150,3 +152,72 @@ sudo apt-get update
 3개의 드라이버를 테스트해본 결과, 8.0.18버전과 호환됨을 확인
 
 <br>
+
+3. Docker container 종속문제
+<img src="https://future-zydeco-6c6.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff22dc327-0788-4704-8c79-3fa8e796e498%2F590116b8-92a3-415a-bcb1-a998a4edf0b2%2F2024-09-19_22_49_33.png?table=block&id=1064abc5-319b-8078-9924-f8f47aee30ae&spaceId=f22dc327-0788-4704-8c79-3fa8e796e498&width=1420&userId=&cache=v2">
+
+```
+input {
+  jdbc {
+    jdbc_driver_library => "/usr/share/logstash/mysql-connector-java-8.0.18.jar"
+    jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
+    jdbc_connection_string => "jdbc:mysql://127.0.0.1:3306/mydb"
+    jdbc_user => "user"
+    jdbc_password => "1234"
+    jdbc_validate_connection => true
+    schedule => "* * * * *"
+    statement => "SELECT title, description, reporter, article_url, date FROM article"
+  }
+}
+
+filter {
+}
+
+output {
+  elasticsearch {
+    hosts => ["http://127.0.0.1:9200"]
+    index => "article"
+  }
+
+  stdout { 
+    codec => rubydebug
+  }
+}
+```
+
+기존 yaml파일 사용 시
+- DB와 연결할 수 없으며 EK도 찾을 수 없다는 에러발생
+- mysql, elasticsearch는 logstash와 같은 도커 컴포즈에 종속된 컨테이너이므로 127.0.0.1은 logstash 자기자신을 의미
+- 때문에 docker compose의 서비스명을 명시해주어야함.
+<br>
+
+TO BE
+
+```
+input {
+  jdbc {
+    jdbc_driver_library => "/usr/share/logstash/mysql-connector-java-8.0.18.jar"
+    jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
+    jdbc_connection_string => "jdbc:mysql://mysql:3306/mydb"
+    jdbc_user => "user"
+    jdbc_password => "1234"
+    jdbc_validate_connection => true
+    schedule => "* * * * *"
+    statement => "SELECT title, description, reporter, article_url, date FROM article"
+  }
+}
+
+filter {
+}
+
+output {
+  elasticsearch {
+    hosts => ["http://elasticsearch:9200"]
+    index => "article"
+  }
+
+  stdout { 
+    codec => rubydebug
+  }
+}
+
