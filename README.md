@@ -4,7 +4,7 @@
 <br>
     
 |<img src="https://avatars.githubusercontent.com/u/64997345?v=4" width="120" height="120"/>|<img src="https://avatars.githubusercontent.com/u/38968449?v=4" width="120" height="120"/>|<img src="https://avatars.githubusercontent.com/u/175371231?v=4" width="120" height="120"/>|<img src="https://avatars.githubusercontent.com/u/82391356?v=4" width="120" height="120"/>
-|:-:|:-:|:-:|
+|:-:|:-:|:-:|:-:|
 |[@최영하](https://github.com/ChoiYoungha)|[@허예은](https://github.com/yyyeun)|[@오재웅](https://github.com/ohwoong2)|[@이정민](https://github.com/jjeong1015) 
 
 
